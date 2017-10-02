@@ -1,0 +1,45 @@
+{# Widgets #}
+
+{% block field_help %}
+    {% if help is defined %}
+        <span class="help help-block">{{ help | raw }}</span>
+    {% endif %}
+{% endblock %}
+
+{% block form_row %}
+{% spaceless %}
+    <div>
+        {{ form_label(form, label|default(null)) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+        {{ block('field_help') }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block checkbox_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {% set widget = '<input type="checkbox" ' ~ block('widget_attributes') ~ ( value is defined ? 'value="' ~ value ~ '"' : '') ~ (checked ? 'checked="checked"' : '' ) ~ '/>' %}
+    {% if 'checkbox-inline' in parent_label_class %}
+        {{- form_label(form, null, { widget: widget }) -}}
+    {% else -%}
+        <div class="checkbox">
+            {{- form_label(form, null, { widget: widget }) -}}
+        </div>
+    {%- endif %}
+    {{ block('field_help') }}
+{%- endblock checkbox_widget %}
+
+{# 
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+    {% if form.parent %}<span class="help-block error">{% else %}<div class="alert alert-danger">{% endif %}
+    <ul class="list-unstyled">
+        {%- for error in errors -%}
+            <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{ error.message }}</li>
+        {%- endfor -%}
+    </ul>
+    {% if form.parent %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %} #}

@@ -1,0 +1,5 @@
+services:
+    parabol.form_extensions.help:  
+        class: Parabol\FormExtensionsBundle\Form\Extension\FormTypeHelpExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
